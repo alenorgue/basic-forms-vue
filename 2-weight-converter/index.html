@@ -14,18 +14,19 @@
             <label for="pounds">Pounds:</label>
             <input type="number" id="pounds" class="input" step=".1" v-model="pounds" placeholder="Enter number" @input="validateInput" />
         </div>
-        <p>Your weight in kg is: <span id="result">{{ kg }}</span></p>
+        <p>Your weight in kg is: <span id="result">{{ kg() }}</span></p>
         <p class="error" id="error">{{ error }}</p>
     </div>
     <script type="module">
-  import { createApp, ref, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+  import { createApp, ref} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
   
   createApp({
     setup() {
       const pounds = ref(0)
-      const kg = computed(() => pounds.value * 0.453592)
       const error = ref('')
+
+      const kg = () => pounds.value * 0.453592
 
       const validateInput = () => {
         if (pounds.value < 0) {

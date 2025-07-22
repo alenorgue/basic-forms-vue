@@ -8,20 +8,42 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div id="app" class="container">
         <h1>Tip Calculator</h1>
         <p>Enter the bill amount and tip percentage to calculate the total.</p>
         <label for="bill">Bill amount:</label>
-        <input type="number" id="bill">
+        <input type="number" id="bill" v-model="bill">
         <br/>
         <label for="tip">Tip percentage:</label>
-        <input type="number" id="tip">
+        <input type="number" id="tip" v-model="tipPercentage">
         <br/>
-        <button id="calculate">Calculate</button>
+        <button  id="calculate" @click="calculateTotal">Calculate</button>
         <br/>
         <label for="total">Total:</label>
-        <span id="total"></span>
+        <span id="total">{{ total }}</span>
 
     </div>
+    <script type="module">
+        import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+        createApp({
+            setup() {
+                 const bill = ref(0);
+        const tipPercentage = ref(0);
+        const total = ref('');
+
+                const calculateTotal = () => {
+                    total.value = (bill.value * (1 + tipPercentage.value / 100)).toFixed(2);
+                }
+
+                return {
+                    bill,
+                    tipPercentage,
+                    total,
+                    calculateTotal
+                }
+            }
+        }).mount('#app')
+        </script>
 </body>
 </html>
