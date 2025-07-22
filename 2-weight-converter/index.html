@@ -8,14 +8,43 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div id="app" class="container">
         <h1 class="heading">Weight Converter</h1>
         <div class="input-container">
             <label for="pounds">Pounds:</label>
-            <input type="number" id="input" class="input" step=".1" placeholder="Enter number">
+            <input type="number" id="input" class="input" step=".1" v-model="pounds" placeholder="Enter number">
         </div>
-        <p>Your weight in kg is: <span id="result"></span></p>
-        <p class="error" id="error"></p>
+        <p>Your weight in kg is: <span id="result">{{ kg }}</span></p>
+        <p class="error" id="error">{{ error }}</p>
     </div>
+    <script type="module">
+  import { createApp, ref, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+  
+  createApp({
+    setup() {
+      const pounds = ref(0)
+      const kg = computed(() => pounds.value * 0.453592)
+      const error = ref('')
+
+      const validateInput = () => {
+        if (pounds.value < 0) {
+          error.value = 'Weight cannot be negative'
+        } else if (isNaN(pounds.value)) {
+          error.value = 'Weight must be a number'
+        } else {
+          error.value = ''
+        }
+      }
+
+      return {
+        pounds,
+        kg,
+        error,
+        validateInput
+      }
+    }
+  }).mount('#app')
+ </script>
 </body>
 </html>

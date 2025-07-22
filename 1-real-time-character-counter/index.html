@@ -8,24 +8,66 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
+    <div id="app" class="container">
       <h2>Real-time Charater Counter</h2>
-      <textarea
+      <textarea  
         id="textarea"
         class="textarea"
         placeholder="Please write your text here..."
         maxlength="50"
+        v-model="text"
       ></textarea>
       <div class="counter-container">
         <p>
           Total Charaters:
-          <span class="total-counter" id="total-counter"></span>
+          <span class="total-counter" id="total-counter">{{totalCharacters}}</span>
         </p>
         <p>
           Remaining:
-          <span class="remaining-counter" id="remaining-counter"></span>
+          <span class="remaining-counter" id="remaining-counter">{{remainingCharacters}}</span>
         </p>
       </div>
     </div>
+<script type="module">
+  import { createApp, ref, reactive, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+  // --- FORMA 1: Usando ref() (recomendado para valores primitivos) ---
+  createApp({
+    setup() {
+      const text = ref('')
+
+      const totalCharacters = computed(() => text.value.length)
+      const remainingCharacters = computed(() => 50 - text.value.length)
+
+      return {
+        text,
+        totalCharacters,
+        remainingCharacters,
+      }
+    }
+  }).mount('#app')
+
+  /*
+  // --- FORMA 2: Usando reactive() (más útil para objetos con varias propiedades) ---
+  createApp({
+    setup() {
+      const state = reactive({
+        text: ''
+      })
+
+      const totalCharacters = computed(() => state.text.length)
+      const remainingCharacters = computed(() => 50 - state.text.length)
+
+      return {
+        text: state.text,
+        totalCharacters,
+        remainingCharacters,
+      }
+    }
+  }).mount('#app')
+  */
+   
+</script>
   </body>
+  
 </html>
