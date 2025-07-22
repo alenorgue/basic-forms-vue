@@ -8,19 +8,46 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div id="app" class="container">
         <h1>Loan Calculator</h1>
         <p>Loan Amount $
-            <input class="input" type="number" min="1" max="500000">
+            <input v-model="loanAmount" class="input" type="number" min="1" max="500000">
         </p>
         <p>Interest Rate %
-            <input class="input" type="number" min="0" max="100" step=".1">
+            <input v-model="interestRate" class="input" type="number" min="0" max="100" step=".1">
         </p>
         <p>Months to pay
-            <input class="input" type="number" min="6" max="48">
+            <input v-model="months" class="input" type="number" min="6" max="48">
         </p>
-        <p class="payment">Monthly Payment:</p>
+        <p class="payment">Monthly Payment: {{ monthlyPayment.toFixed(2) }}</p>
     </div>
+
+    <script type="module">
+  import { createApp, ref, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+
+  createApp({
+    setup() {
+      const loanAmount = ref(0)
+      const interestRate = ref(0)
+      const months = ref(0)
+
+      const monthlyPayment = computed(() => {
+        const principal = loanAmount.value
+        const calculatedInterest = interestRate.value / 100 / 12
+        const x = Math.pow(1 + calculatedInterest, months.value)
+        return (principal * x * calculatedInterest) / (x - 1)
+      })
+
+      return {
+        loanAmount,
+        interestRate,
+        months,
+        monthlyPayment
+      }
+    }
+  }).mount('#app')
+</script>
 
 </body>
 </html> 
