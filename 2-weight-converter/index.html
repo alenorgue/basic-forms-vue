@@ -26,7 +26,7 @@
       const pounds = ref(0)
       const error = ref('')
 
-      const kg = () => pounds.value * 0.453592
+      const kg = () => (pounds.value * 0.453592).toFixed(2)
 
       const validateInput = () => {
         if (pounds.value < 0) {
